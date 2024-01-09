@@ -1,0 +1,698 @@
+library(dplyr)
+library(tidyr)
+library(Seurat)
+library(patchwork)
+library(ggplot2)
+library(tidyverse)
+library(sctransform)
+library(gridExtra)
+library(devtools)
+library(harmony)
+library(ade4)
+library(Matrix)
+library(slingshot)
+library(DelayedMatrixStats)
+#1
+NOR1.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 01/GSM3489182_Donor_01_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR1.control <- CreateSeuratObject(counts = NOR1.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR1.control
+#2
+NOR2.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 02/GSM3489185_Donor_02_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR2.control <- CreateSeuratObject(counts = NOR2.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR2.control
+
+#3
+NOR3.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 03/GSM3489187_Donor_03_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR3.control <- CreateSeuratObject(counts = NOR3.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR3.control
+
+#4
+NOR4.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 04/GSM3489189_Donor_04_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR4.control <- CreateSeuratObject(counts = NOR4.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR4.control
+
+#5
+NOR5.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 05/GSM3489191_Donor_05_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR5.control <- CreateSeuratObject(counts = NOR5.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR5.control
+
+#6
+NOR6.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 06/GSM3489193_Donor_06_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR6.control <- CreateSeuratObject(counts = NOR6.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR6.control
+
+#7
+NOR7.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 07/GSM3489195_Donor_07_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR7.control <- CreateSeuratObject(counts = NOR7.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR7.control
+
+#8
+NOR8.control <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Donor 08/GSM3489197_Donor_08_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                           unique.features = TRUE)
+NOR8.control <- CreateSeuratObject(counts = NOR8.control, project = "ctrl", min.cells = 3, min.features = 200)
+NOR8.control
+
+#9
+IPF1.ipf <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Ipf 01/GSM3489183_IPF_01_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                       unique.features = TRUE)
+IPF1.ipf <- CreateSeuratObject(counts = IPF1.ipf, project = "ipf", min.cells = 3, min.features = 200)
+IPF1.ipf
+
+#10
+IPF2.ipf <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Ipf 02/GSM3489184_IPF_02_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                       unique.features = TRUE)
+IPF2.ipf <- CreateSeuratObject(counts = IPF2.ipf, project = "ipf", min.cells = 3, min.features = 200)
+IPF2.ipf
+
+#11
+IPF3.ipf <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Ipf 03/GSM3489188_IPF_03_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                       unique.features = TRUE)
+IPF3.ipf <- CreateSeuratObject(counts = IPF3.ipf, project = "ipf", min.cells = 3, min.features = 200)
+IPF3.ipf
+
+#12
+IPF4.ipf <- Read10X_h5(filename = "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/Misharin /Raw Data/Ipf 04/GSM3489190_IPF_04_filtered_gene_bc_matrices_h5.h5",  use.names = TRUE,
+                       unique.features = TRUE)
+IPF4.ipf <- CreateSeuratObject(counts = IPF4.ipf, project = "ipf", min.cells = 3, min.features = 200)
+IPF4.ipf
+
+#Merge
+combined <- merge(NOR1.control, y = c(NOR2.control, NOR3.control,  NOR4.control, NOR5.control, NOR6.control, NOR7.control, NOR8.control, IPF1.ipf, IPF2.ipf, IPF3.ipf, IPF4.ipf), add.cell.ids = c("NOR1_Normal", "NOR2_Normal", "NOR3_Normal", "NOR4_Normal", "NOR5_Normal", "NOR6_Normal", "NOR7_Normal", "NOR8_Normal", "IPF1_IPF", "IPF2_IPF", "IPF3_IPF", "IPF4_IPF"), project = "controlvsipf")
+
+combined
+
+# QC & filtering -----------------------
+View(combined@meta.data)
+
+# create a sample column
+combined$sample <- rownames(combined@meta.data)
+View(combined@meta.data)
+
+# split sample column
+combined@meta.data <- separate(combined@meta.data, col = 'sample', into = c('Patient','Type','Barcode'), 
+                               sep = '_')
+View(combined@meta.data)
+#QC Control
+# The [[ operator can add columns to object metadata. This is a great place to stash QC stats
+combined[["percent.mt"]] <- PercentageFeatureSet(combined, pattern = "^MT-")
+
+
+# Show QC metrics for the first 5 cells
+head(combined@meta.data, 5)
+mt.genes <- rownames(combined )[grep("^MT-",rownames(combined ))]
+C<-GetAssayData(object = combined , slot = "counts")
+View(combined@meta.data)
+rb.genes <- rownames(combined )[grep("^RP[SL]",rownames(combined ))]
+percent.ribo <- colSums(C[rb.genes,])/Matrix::colSums(C)*100
+combined <- AddMetaData(combined , percent.ribo, col.name = "percent.ribo")
+View(combined@meta.data)
+combined[["percent.mt"]] <- PercentageFeatureSet(combined, pattern = "^MT-")
+combined[["percent.ribo"]] <- PercentageFeatureSet(combined, pattern = "^RP[SL]")
+View(combined@meta.data)
+VlnPlot(combined, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+head(combined@meta.data, 5)
+
+#plot QC
+VlnPlot(combined, features =c('nFeature_RNA','nCount_RNA','percent.mt'))
+VlnPlot(combined, features =c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RidgePlot(combined, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 2)
+
+
+View(combined@meta.data)
+
+#plot scatter
+FeatureScatter(combined , feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
+FeatureScatter(combined , feature1 = "nFeature_RNA", feature2 = "percent.mt")
+FeatureScatter(combined , feature1="percent.ribo", feature2="nFeature_RNA")
+
+
+#filter_out
+data.filtered <- subset(combined , subset = nCount_RNA > 800  & nFeature_RNA > 500 & percent.mt < 20)
+data.filtered
+combined
+VlnPlot(data.filtered, features = "nFeature_RNA", pt.size = 0.1) + NoLegend()
+VlnPlot(data.filtered, features = "nCount_RNA", pt.size = 0.1) + NoLegend()
+
+
+#Normalization of data
+data.filtered <- NormalizeData(data.filtered, normalization.method = "LogNormalize", scale.factor = 10000)
+data.filtered <- NormalizeData(data.filtered)
+NormalizeData(data.filtered)
+
+
+#FindVariableFeatures
+data.filtered <- FindVariableFeatures(data.filtered , nfeatures = 5000, mean.cutoff = c(0.0125,3), dispersion.cutoff = c(0.5, Inf))
+length(data.filtered @assays$RNA@var.features)
+summary(data.filtered @assays$RNA@meta.features)
+
+# Identify the 20 most highly variable genes
+cell.markers  <- FindVariableFeatures(data.filtered , selection.method = "vst", nfeatures = 5000)
+dim(cell.markers)
+top20 <- head(VariableFeatures(data.filtered ), 20)
+top10 <- head(VariableFeatures(data.filtered ), 10)
+
+
+# plot variable features with and without labels
+plot1 <- VariableFeaturePlot(data.filtered )
+
+plot2 <-LabelPoints(plot = plot1, points = top10, repel = T, xnudge = 0, ynudge = 0)
+plot1+plot2
+
+
+#Scaling the data
+all.genes <- rownames(data.filtered )
+data.filtered  <- ScaleData(data.filtered , features = all.genes)
+data.filtered  <- ScaleData(data.filtered )
+data.filtered  <- ScaleData(data.filtered , vars.to.regress = "percent.mt")
+
+View(data.filtered@meta.data)
+
+
+#Dimensanality Reduction
+data.filtered  <- RunPCA(data.filtered , features = VariableFeatures(object = data.filtered ))
+print(data.filtered [["pca"]], dims = 1:2, nfeatures = 10)
+VizDimLoadings(data.filtered , dims = 1:2, reduction = "pca")
+DimPlot(data.filtered , reduction = "pca")
+DimHeatmap(data.filtered , dims = 1, cells = 50, balanced = TRUE)
+DimHeatmap(data.filtered , dims = 1, cells = 500, balanced = TRUE)
+PCHeatmap(data.filtered ,  dim = 1:20, cells = 500, balanced=TRUE)
+
+ElbowPlot(data.filtered)
+
+data.filtered
+
+#cluster
+data.filtered <- FindNeighbors(data.filtered, dims = 1:20)
+data.filtered <- FindClusters(data.filtered, resolution = 0.008)
+
+
+# Look at cluster IDs of the first 5 cells
+head(Idents(data.filtered), 5)
+
+
+#UMAP/tSNE
+# If you haven't installed UMAP, you can do so via reticulate::py_install(packages =
+# 'umap-learn')
+data.filtered <- RunUMAP(data.filtered
+                         , dims = 1:20)
+data.filtered <- RunTSNE(object = data.filtered, check_duplicates = T)
+data.filtered <- RunTSNE(data.filtered, dims = 1:20 , perplexity= 30)
+
+
+# plot
+p1 <- DimPlot(data.filtered, reduction = 'umap', group.by = 'Patient')
+p2 <- DimPlot(data.filtered, reduction = 'umap', group.by = 'Type',
+              cols = c('red','green','blue'))
+grid.arrange(p1, p2, ncol = 2, nrow = 1)
+
+Before <- DimPlot(data.filtered, reduction = 'umap', group.by = 'Type',
+                  cols = c('red', 'green','blue'))
+# ======================================
+# Annotate clusters using markers specific for populations
+# Immune cells: PTPRC
+# Epithelial cells: EPCAM
+# Endothelial cells: PECAM1+ PTPRC-
+# Mesenchymal cells: no expression of those markers
+# ======================================
+
+DimPlot(data.filtered, label = T)
+FeaturePlot(data.filtered, c("PTPRC", "EPCAM", "PECAM1"), label = T)
+DotPlot(data.filtered, features = c("PTPRC", "EPCAM", "PECAM1"))
+DotPlot(data.filtered, features = c("PTPRC", "EPCAM", "PECAM1"))
+
+Idents(data.filtered, cells = WhichCells(data.filtered, idents = c(1, 2))) <- "Immune"
+Idents(data.filtered, cells = WhichCells(data.filtered, idents = c(0, 4))) <- "Epithelial"
+Idents(data.filtered, cells = WhichCells(data.filtered, idents = c(3))) <- "Endothelial"
+Idents(data.filtered, cells = WhichCells(data.filtered, idents = c(5))) <- "Mesenchymal"
+data.filtered@meta.data$population <- Idents(data.filtered)
+View(data.filtered@meta.data)
+# ======================================
+# Subset into 4 major populations
+# ======================================
+immune <- subset(data.filtered, idents = "Immune")
+epi <- subset(data.filtered, idents = "Epithelial")
+endo <- subset(data.filtered, idents = "Endothelial")
+meso <- subset(data.filtered, idents = "Mesenchymal")
+
+# Confirm subsetted data
+table(data.filtered@meta.data$population)
+table(immune@meta.data$population)
+table(epi@meta.data$population)
+table(endo@meta.data$population)
+table(meso@meta.data$population)
+
+#featureplotpDC/PNEC
+FeaturePlot(data.filtered, features = c("CLEC4C", "LILRA4", "IL3RA", "BANP") )
+FeaturePlot(data.filtered, features = c("ASCL1", "CALCA", "GRP", "BANP"))
+# ======================================
+# Make plots to determine which PC 
+# to use for each subset
+# Mesenchymal subset
+# ======================================
+meso <- FindVariableFeatures(meso, verbose = T, nfeatures = 3000)
+meso <- ScaleData(meso)
+meso <- RunPCA(meso)
+
+ElbowPlot(meso)
+# ======================================
+# Endothelial subset
+# ======================================
+endo <- FindVariableFeatures(endo, verbose = T, nfeatures = 3000)
+endo <- ScaleData(endo)
+endo <- RunPCA(endo)
+
+ElbowPlot(endo)
+
+
+# ======================================
+# Epithelial subset
+# ======================================
+epi <- FindVariableFeatures(epi, verbose = T, nfeatures = 3000)
+epi <- ScaleData(epi)
+epi <- RunPCA(epi)
+
+ElbowPlot(epi, ndims = 30)
+
+# ======================================
+# Immune subset
+# ======================================
+immune <- FindVariableFeatures(immune, verbose = T, nfeatures = 3000)
+immune <- ScaleData(immune)
+immune <- RunPCA(immune)
+
+ElbowPlot(immune, ndims = 30)
+
+
+# ======================================
+# Run UMAP for the Seurat subset
+# objects with the PCs determined from above
+# ======================================
+epi <- RunUMAP(object = epi, dims = 1:11, verbose = F)
+endo <- RunUMAP(object = endo, dims = 1:14, verbose = F)
+immune <- RunUMAP(object = immune, dims = 1:21, verbose = F)
+meso <- RunUMAP(object = meso, dims = 1:14, verbose = F)
+
+# ======================================
+# Epithelial
+# ======================================
+runFeaturePlots = TRUE
+epi <- FindNeighbors(epi, dims = 1:20)
+epi <- FindClusters(epi, resolution = 2)
+View(epi@meta.data)
+#epithelial cell markers of all clusters
+epi.markers <- FindAllMarkers(epi, only.pos = TRUE)
+epi.markers %>%
+  group_by(cluster) %>%
+  dplyr::filter(avg_log2FC > 1)
+View(epi.markers)
+write.csv(epi.markers, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/epi_marker.csv", row.names=FALSE)
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("SFTPC", "ABCA3", "AGER", "HOPX"), label = T)}
+DotPlot(epi, features = c("SFTPC", "ABCA3", "AGER", "HOPX"))
+Idents(epi, cells = WhichCells(epi, idents = c(4))) <- "AT1"
+Idents(epi, cells = WhichCells(epi, idents = c(2, 5, 10, 11, 13, 14, 17, 22, 25, 27, 28))) <- "AT2"
+Idents(epi, cells = WhichCells(epi, idents = c(1, 20))) <- "Transitional AT2"
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("KRT5", "KRT17", "TP63", "COL1A1"), label = T)}
+DotPlot(epi, features = c("KRT5", "KRT17", "TP63", "COL1A1"))
+Idents(epi, cells = WhichCells(epi, idents = c(21))) <- "Basal"
+Idents(epi, cells = WhichCells(epi, idents = c(18))) <- "KRT5-/KRT17+"
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("SCGB1A1", "SCGB3A2", "MUC5B", "MUC5AC"), label = T)}
+DotPlot(epi, features = c("SCGB1A1", "SCGB3A2", "MUC5B", "MUC5AC"))
+Idents(epi, cells = WhichCells(epi, idents = c(0, 12))) <- "MUC5B+"
+Idents(epi, cells = WhichCells(epi, idents = c(18))) <- "SCGB3A2+"
+Idents(epi, cells = WhichCells(epi, idents = c(6))) <- "SCGB1A1+"
+if (runFeaturePlots) {FeaturePlot(epi, features = c("MGP", "SCGB1A1", "SCGB3A2"), label = T)}
+DotPlot(epi, features = c("MGP", "SCGB1A1", "SCGB3A2"))
+Idents(epi, cells = WhichCells(epi, idents = c(7, 8, 9, 26))) <- "SCGB3A2+ SCGB1A1+"
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("CALCA", "ASCL1"), label = T)}
+DotPlot(epi, features = c("CALCA", "ASCL1"))
+Idents(epi, cells = WhichCells(epi, idents = c())) <- "PNECs"
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("FOXJ1", "TMEM190", "CAPS", "HYDIN"), label = T)}
+DotPlot(epi, features = c("FOXJ1", "TMEM190", "CAPS", "HYDIN"))
+Idents(epi, cells = WhichCells(epi, idents = c(15, 16, 21))) <- "Ciliated"
+Idents(epi, cells = WhichCells(epi, idents = c(24))) <- "Differentiating Ciliated"
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("EPCAM", "PTPRC", "PECAM1", "LUM"), label = T)}
+DotPlot(epi, features = c("EPCAM", "PTPRC", "PECAM1", "LUM"))
+if (runFeaturePlots) {FeaturePlot(epi, features = c("SFTPC", "SCGB1A1", "SCGB3A2", "FOXJ1", "KRT5", "AGER"))}
+DotPlot(epi, features = c("SFTPC", "SCGB1A1", "SCGB3A2", "FOXJ1", "KRT5", "AGER"))
+Idents(epi, cells = WhichCells(epi, idents = c())) <- "Doublets"
+
+if (runFeaturePlots) {FeaturePlot(epi, features = c("MKI67"), label = T)}
+DotPlot(epi, features = c("MKI67"))
+Idents(epi, cells = WhichCells(epi, idents = c(23))) <- "Proliferating Epithelial Cells"
+
+epi$firstCT <- Idents(epi)
+
+pnecionocyte_subset <- subset(epi, idents = c("PNECs/Ionocytes"))
+if (runFeaturePlots) {FeaturePlot(pnecionocyte_subset, features = c("FOXI1", "CHGA"))}
+DotPlot(epi, features = c("FOXI1", "CHGA"))
+Idents(epi, cells = WhichCells(pnecionocyte_subset, expression = CHGA > 0)) <- "PNECs"
+Idents(epi, cells = WhichCells(pnecionocyte_subset, expression = FOXI1 > 0)) <- "Ionocytes"
+Idents(epi, cells = WhichCells(pnecionocyte_subset, idents = "PNECs/Ionocytes")) <- "Basal"
+
+muc5b_subset <- subset(epi, idents = c("MUC5B+")) %>% FindNeighbors() %>% FindClusters(resolution = 2)
+if (runFeaturePlots) {FeaturePlot(muc5b_subset, features = c("MUC5B", "MUC5AC"))}
+DotPlot(epi, features = c("MUC5B", "MUC5AC"))
+Idents(epi, cells = WhichCells(muc5b_subset, idents = c(15))) <- "MUC5AC+ High"
+
+epi$celltype <- Idents(epi)
+DimPlot(epi, label = T)
+
+DimPlot(epi, group.by = "celltype")
+
+DimPlot(epi, group.by = "celltype")
+DimPlot(epi, group.by = "Status", label = T)
+dev.off()
+
+#VlnPlot of diffrentially expressed genes in epithelial subsets
+VlnPlot(epi, features = c("BANP"), cols = c("#00C194", "#F8766D"), adjust = 10000, split.by = "Status")
+VlnPlot(epi, features = c("THY1"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(epi, features = c("VCAN"), split.by = "Status")
+VlnPlot(epi, features = c("THY1", "IGFBP4", "SFRP2"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(epi, features = c("ITGA8"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+
+#Featureplot for calca and ascl1
+FeaturePlot(epi, features = c("CALCA", "ASCL1"), label = T)
+DotPlot(epi, features = c("CALCA", "ASCL1"), split.by = "Status")
+#Propotion of cells by disease status
+prop.table(table(Idents(epi), epi$Status), margin = 2)
+
+# ======================================
+# Immune
+# ======================================
+immune <- FindNeighbors(immune, dims = 1:20)
+immune <- FindClusters(immune, resolution = 3)
+#immune cell markers of all clusters
+immune.markers <- FindAllMarkers(immune, only.pos = TRUE)
+immune.markers %>%
+  group_by(cluster) %>%
+  dplyr::filter(avg_log2FC > 1)
+View(immune.markers)
+write.csv(immune.markers, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/immune_marker.csv", row.names=FALSE)
+DotPlot(immune, features = c("LYZ", "MARCO", "FCGR1A", "C1QB"), cols = c("red", "green"))
+FeaturePlot(immune, features = c("FCER1A", "CD1C", "CLEC9A", "FSCN1"), label = T)
+FeaturePlot(immune, features = c("FCER1A", "CD1C", "CLEC9A", "FSCN1"), label = T)
+DimPlot(immune, label = T)
+#==========================================
+#Subset DC populations for rare pDC
+DC <- subset(immune, idents = c(28, 29))
+DimPlot(DC, label = T)
+#Processing DC subset
+DC <- FindVariableFeatures(DC, verbose = T, nfeatures = 3000)
+DC <- ScaleData(DC)
+DC <- RunPCA(DC)
+
+ElbowPlot(DC)
+#Umap
+DC <- RunUMAP(object = DC, dims = 1:20, verbose = F)
+#DC
+runFeaturePlots = TRUE
+DC <- FindNeighbors(DC, dims = 1:20)
+DC <- FindClusters(DC, resolution = 1)
+View(DC@meta.data)
+
+#cDC
+if (runFeaturePlots) {FeaturePlot(DC, features = c("FCER1A", "CD1C", "CLEC9A", "FSCN1"), label = T)}
+DotPlot(DC, features = c("FCER1A", "CD1C", "CLEC9A", "FSCN1"), cols = c("red", "green"))
+Idents(DC, cells = WhichCells(DC, idents = c(0, 1, 2, 3, 4, 5, 6, 7, 8))) <- "cDCs"
+#pDC
+if (runFeaturePlots) {FeaturePlot(DC, features = c("LILRA4", "CLEC4C", "JCHAIN", "TCF4"), label = T)}
+DotPlot(DC, features = c("LILRA4", "CLEC4C", "JCHAIN", "TCF4"), cols = c("red", "green"))
+Idents(DC, cells = WhichCells(DC, idents = c(9))) <- "pDCs"
+View(DC@meta.data)
+DimPlot(DC, split.by = "Type", label = T)
+#Keeping everything in DC celltype
+DC$celltype <- Idents(DC)
+#DEG of pDCs between different disease status
+DC$celltype.Type<- paste(Idents(DC), DC$Type, sep = "_")
+Idents(DC) <- "celltype.Type"
+disease.Type.pDC <- FindMarkers(DC, ident.1 = "pDCs_IPF", ident.2 = "pDCs_Normal", verbose = FALSE)
+head(disease.Type.pDCs, n = 15)
+DimPlot(DC, label = T)
+write.csv(disease.status.pDCs, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/disease.Type.pDCs.csv")
+#DEG of cDCs between different disease status
+DC$celltype.Type<- paste(Idents(DC), DC$Type, sep = "_")
+Idents(DC) <- "celltype.Type"
+disease.Type.cDC <- FindMarkers(DC, ident.1 = "cDCs_IPF", ident.2 = "cDCs_Normal", verbose = FALSE)
+head(disease.Type.cDC, n = 15)
+DimPlot(DC, label = T)
+write.csv(disease.Type.cDC, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/disease.Type.cDC.csv")
+#=====================================
+#Subset remaining clusters into one
+Remaining.immune <- subset(immune, idents = c(0:27, 30:46))
+#Macrophages
+FeaturePlot(Remaining.immune, features = c("LYZ", "MARCO", "FCGR1A", "C1QB"), label = T)
+DotPlot(Remaining.immune, features = c("LYZ", "MARCO", "FCGR1A", "C1QB"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 23, 26, 31, 33, 39, 40))) <- "Macrophages"
+#Tcell
+FeaturePlot(Remaining.immune, features = c("CD3E", "FOXP3", "IL7R", "CD8A"), label = T)
+DotPlot(Remaining.immune, features = c("CD3E", "FOXP3", "IL7R", "CD8A"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(35))) <- "T Cells"
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(21))) <- "T reg Cells"
+#Monocyte
+if (runFeaturePlots) {FeaturePlot(Remaining.immune, features = c("CD14", "LYZ", "S100A12", "ITGAL"), label = T)}
+DotPlot(Remaining.immune, features = c("CD14", "LYZ", "S100A12", "ITGAL"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(15, 22, 24, 30, 43))) <- "Monocytes"
+#B&Plasma
+if (runFeaturePlots) {FeaturePlot(Remaining.immune, features = c("MS4A1", "CD19", "JCHAIN", "IGHG1"), label = T)}
+DotPlot(Remaining.immune, features = c("MS4A1", "CD19", "JCHAIN", "IGHG1"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(25))) <- "B Cells"
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(14, 34, 37, 45))) <- "Plasma Cells"
+#Mast
+if (runFeaturePlots) {FeaturePlot(Remaining.immune, features = c("CPA3", "KIT"), label = T)}
+DotPlot(Remaining.immune, features = c("CPA3", "KIT"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(36))) <- "Mast Cells"
+
+#NKcells
+FeaturePlot(Remaining.immune, features = c("CD3E", "KLRB1", "NKG7", "NCR1"), label = T)
+DotPlot(Remaining.immune, features = c("CD3E", "KLRB1", "NKG7", "NCR1"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(41))) <- "NK Cells" 
+#Proliferating cells
+FeaturePlot(Remaining.immune, features = c("MKI67", "CD3E", "LYZ"), label = T)
+DotPlot(Remaining.immune, features = c("MKI67", "CD3E", "LYZ"), cols = c("red", "green"))
+if (runFeaturePlots) {FeaturePlot(Remaining.immune, features = c("PTPRC", "EPCAM", "VWF", "ACTA2"))}
+DotPlot(Remaining.immune, features = c("PTPRC", "EPCAM", "VWF", "ACTA2"), cols = c("red", "green"))
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(46))) <- "Proliferating T Cells"
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(16))) <- "Proliferating Macrophages"
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(42))) <- "Proliferating B cells"
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(44))) <- "Proliferating Plasma cells"
+Idents(Remaining.immune, cells = WhichCells(Remaining.immune, idents = c(20, 27, 32, 38))) <- "Doublets"
+
+#Keeping the idents into celltype column in immune subset
+Remaining.immune$celltype <- Idents(immune)
+Remaining.immune_keep <- c("Macrophages", "Monocytes", "cDC", "pDC", "Proliferating Macrophages", "Prolifirating B cells", "Prolifirating Plasma cells", "Plasma Cells", "Mast Cells", "Prolifirating T Cells", "NK Cells", "T Cells", "T reg Cells", "B Cells")
+Remaining.immune <- subset(Remaining.immune, cells = row.names(Remaining.immune@meta.data[Remaining.immune@meta.data$celltype %in% Remaining.immune_keep ]))
+# ======================================
+# Merge all objects back into ild
+# ======================================
+immune <- merge(x = Remaining.immune, y= DC)
+immune <- FindVariableFeatures(immune, verbose = T, nfeatures = 3000)
+immune <- ScaleData(immune)
+immune <- RunPCA(immune)
+immune <- RunUMAP(immune, dims = 1:20)
+
+#Keeping the idents into celltype column in immune subset
+
+DimPlot(immune, label = T)
+DimPlot(immune, split.by = "Type")
+View(immune@meta.data)
+FeaturePlot(immune, features = c("BANP"), split.by = "Type")
+
+#DEG of pDCs between different disease status
+immune$celltype.Status<- paste(Idents(immune), immune$Status, sep = "_")
+Idents(immune) <- "celltype.Status"
+disease.status <- FindMarkers(immune, ident.1 = "pDCs_Disease", ident.2 = "pDCs_Control", verbose = FALSE)
+disease.status.pDCs <- disease.status
+head(disease.status.pDCs, n = 15)
+DimPlot(immune)
+write.csv(disease.status.pDCs, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Banovich:Kropski/Haberman data//disease.status.pDCs.csv")
+#VlnPlot of diffrentially expressed genes in immune subsets
+VlnPlot(immune, features = c("BANP"), cols =c("#00C194", "#F8766D"), split.by = "Type")
+VlnPlot(immune, features = c("BANP"), cols = c("#00C194", "#F8766D"), split.by = "Type")
+VlnPlot(immune, features = c("THY1", "IGFBP4", "SFRP2"), cols = c("#00C194", "#F8766D"), split.by = "Type")
+VlnPlot(immune, features = c("CD274"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(immune, features = c("VCAN"), split.by = "Status")
+VlnPlot(immune, features = c("THY1"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(immune, features = c("ITGA8"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+
+#Propotion of cells by disease status
+prop.table(table(Idents(immune), immune$Status), margin = 2)
+# How does cluster membership vary by replicate?
+table(Idents(immune), immune$Status)
+# ======================================
+# Mesenchymal
+# ======================================
+meso <- FindNeighbors(meso, dims = 1:20)
+meso <- FindClusters(meso, resolution = 0.5)
+# find markers for every cluster compared to all remaining cells, report only the positive
+# ones
+meso.markers <- FindAllMarkers(meso, only.pos = TRUE)
+meso.markers %>%
+  group_by(cluster) %>%
+  dplyr::filter(avg_log2FC > 1)
+View(meso.markers)
+write.csv(meso.markers, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Misharin Dataset analysis/meso_marker.csv", row.names=FALSE)
+
+DimPlot(meso, label = T)
+
+FeaturePlot(meso, features = c("LUM", "ACTA2", "WT1", "PDGFRA"), label = T)
+DotPlot(meso, features = c("LUM", "ACTA2", "WT1", "PDGFRA"), cols = c("red", "green"))
+DotPlot(meso, features = c("LUM", "ACTA2", "ADGRD1", "PDGFRA"), cols = c("red", "green"))
+Idents(meso, cells = WhichCells(meso, idents = c(0))) <- "Smooth Muscle Cells"
+Idents(meso, cells = WhichCells(meso, idents = c(2))) <- "Mesothelial Cells"
+
+if (runFeaturePlots) {FeaturePlot(meso, features = c("LUM", "HAS1", "ACTA2", "PLIN2"))}
+if (runFeaturePlots) {FeaturePlot(meso, features = c("HAS1", "ACTA2", "PLIN2", "DCN"))}
+DotPlot(meso, features = c("LUM", "HAS1", "ACTA2", "PLIN2"), cols = c("red", "green"))
+Idents(meso, cells = WhichCells(meso, idents = c(6))) <- "Myofibroblasts"
+Idents(meso, cells = WhichCells(meso, idents = c())) <- "HAS1 High Fibrboblasts"
+Idents(meso, cells = WhichCells(meso, idents = c(1, 4))) <- "Fibroblasts"
+Idents(meso, cells = WhichCells(meso, idents = c())) <- "PLIN2+ Fibroblasts"
+
+FeaturePlot(meso, features = c("PTPRC", "EPCAM", "PECAM1", "VWF"))
+DotPlot(meso, features = c("PTPRC", "EPCAM", "PECAM1", "VWF"), cols = c("red", "green"))
+Idents(meso, cells = WhichCells(meso, idents = c(3, 5))) <- "Doublets"
+
+
+meso$celltype <- Idents(meso)
+
+meso_keep <- c("Smooth Muscle Cells", "Mesothelial Cells", "Myofibroblasts", "Fibroblasts")
+meso <- subset(meso, cells = row.names(meso@meta.data[meso@meta.data$celltype %in% meso_keep, ]))
+#BANP expression in different types of mesenchymal cells
+VlnPlot(meso, features = c("IGFBP4", "THY1"), cols = c("#548BC5", "#FF68A1"), split.by = "Status")
+VlnPlot(meso, features = c("SFRP2"), cols = c("#548BC5", "#FF68A1"), split.by = "Status")
+VlnPlot(meso, features = c("BANP"), cols = c("#548BC5", "#FF68A1"), split.by = "Status", adjust = 9000)
+#DEG of myfibroblast between different disease status
+meso$celltype.Type<- paste(Idents(meso), meso$Type, sep = "_")
+Idents(meso) <- "celltype.Type"
+disease.Type.Myofibroblast <- FindMarkers(meso, ident.1 = "Myofibroblasts_IPF", ident.2 = "Myofibroblasts_Normal", verbose = FALSE)
+head(disease.status.Myofibroblast, n = 15)
+DimPlot(meso)
+write.csv(disease.status.Myofibroblast, "/Users/atmajakarmakar/Documents/PhD IICB/Single cell Data  /Banovich:Kropski/Haberman data//disease.status.Myofibroblast.csv")
+#Top upregulated genes in myofibroblasts from disease patients.
+VlnPlot(meso, features = c("IGFBP4", "THY1"), group.by = "Sample_Name")
+VlnPlot(meso, features = c("SFRP2", "IGFBP4", "TIMP1", "CCL11", "BANP"), cols = c("green", "red"), idents = "Myofibroblasts", group.by = "Status", )
+VlnPlot(meso, features = c("VCAN"), split.by = "Status")
+VlnPlot(meso, features = c("THY1"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(meso, features = c("ITGA8"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+
+DimPlot(meso, group.by = "celltype")
+DimPlot(meso, split.by = "Status")
+#Propotion of cells by disease status
+prop.table(table(Idents(meso), meso$Status), margin = 2)
+# How does cluster membership vary by replicate?
+table(Idents(meso), meso$Status)
+
+dev.off()
+
+DimPlot(meso, group.by = "celltype", split.by = "Status")
+DimPlot(meso, group.by = "Diagnosis", split.by = "Status")
+View(meso@meta.data)
+
+# ======================================
+# Endothelial
+# ======================================
+endo <- FindNeighbors(endo, dims = 1:10)
+endo <- FindClusters(endo)
+
+if (runFeaturePlots) {FeaturePlot(endo, features = c("VWF", "EDNRB", "CCL21", "PECAM1"), label = T)}
+if (runFeaturePlots) {FeaturePlot(endo, features = c("PTPRC", "EPCAM", "LUM", "ACTA2"))}
+Idents(endo, cells = WhichCells(endo, idents = c(0:6, 10, 11:14))) <- "Endothelial Cells"
+Idents(endo, cells = WhichCells(endo, idents = c(7, 9))) <- "Lymphatic Endothelial Cells"
+Idents(endo, cells = WhichCells(endo, idents = c(8, 15))) <- "Doublets"
+endo$celltype <- Idents(endo)
+
+DimPlot(endo, group.by = "celltype")
+endo_keep <- c("Lymphatic Endothelial Cells", "Endothelial Cells")
+endo <- subset(endo, cells = row.names(endo@meta.data[endo@meta.data$celltype %in% endo_keep, ]))
+
+ElbowPlot(endo)
+dev.off()
+DimPlot(endo, group.by = "celltype")
+DimPlot(endo, label = T)
+#Propotion of cells by disease status
+prop.table(table(Idents(endo), endo$Status), margin = 2)
+# How does cluster membership vary by replicate?
+table(Idents(endo), endo$Status)
+#VlnPlot of diffrentially expressed genes in immune subsets
+VlnPlot(endo, features = c("BANP"), cols =c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(endo, features = c("BANP"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(endo, features = c("THY1", "IGFBP4", "SFRP2"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(endo, features = c("CD274"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(endo, features = c("VCAN"), split.by = "Status")
+VlnPlot(endo, features = c("THY1"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(endo, features = c("ITGA8"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(endo, features = c("CXCL14"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+
+# ======================================
+# Merge all objects back into ild
+# ======================================
+ild <- merge(x = epi, y=c(endo, meso, immune))
+ild <- FindVariableFeatures(ild, verbose = T, nfeatures = 3000)
+ild <- ScaleData(ild)
+ild <- RunPCA(ild)
+
+
+
+ild <- RunUMAP(ild, dims = 1:20)
+#Target gene expression from diffrentially expressed genes in myofibroblasts
+VlnPlot(ild, features = c("CXCL14"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(ild, features = c("SFRP2"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+VlnPlot(ild, features = c("LMNA"), cols = c("#00C194", "#F8766D"), split.by = "Status")
+FeaturePlot(ild, features = c("RAD50"), label = T, split.by = "Status")
+DotPlot(ild, features = c("RAD50"), split.by = "Status")
+# ======================================
+# Figure 1: B
+# ======================================
+DimPlot(ild, group.by = "celltype")
+
+# ======================================
+# Figure 1: C
+# ======================================
+DimPlot(ild, group.by = "Status")
+DimPlot(ild, group.by = "Diagnosis")
+
+
+
+
+# find markers for every cluster compared to all remaining cells, report only the positive
+# ones
+lungcell.markers <- FindAllMarkers(data.filtered, only.pos = T, min.pct = 0.25, logfc.threshold = 0.25)
+lungcell.markers %>%
+  group_by(cluster) %>%
+  slice_max(n = 2, order_by = avg_log2FC)
+#save the markers in csv format
+write.csv(lungcell.markers, "LungcellmarkersmisharinFFmm.csv")
+
+#Assigning identity to cell cluster.
+new.cluster.ids <- c("PNEC", "pDC", "AT2", "AT2", "AM","SPP+ MACRO", "FABP4+ MACRO", "Basal", "AM", "AT2", "AT1", "AT2", "AT2", "MONO", "AM", "VE", "Plasma", "NK_T", "Goblet", "MONO", "Ciliated Cell", "cDC", "B Cell", "Myo&Fibroblast", "AM", "Mast", "Plasma", "CD8+ T")
+names(new.cluster.ids) <- levels(data.harmony)
+data.harmony <- RenameIdents(data.harmony, new.cluster.ids)
+DimPlot(data.harmony, reduction = "umap", label = TRUE, pt.size = 0.5, split.by = "Type") + NoLegend()
+
+#check marker
+VlnPlot(data.harmony, features = c("BANP"), pt.size = 2, idents = "pDC", adjust = 2, split.by = "Type", split.plot = T)
+VlnPlot(data.harmony, features = c("ASCL1"), pt.size = 2, idents = "PNEC", adjust = 60000, split.by = "Type", split.plot = T)
+VlnPlot(data.harmony, features = c("BANP"), pt.size = 2, idents = "PNEC", adjust = 8000, split.by = "Type", split.plot = T)
+VlnPlot(data.harmony, features = c("ASCL1", "CALCA", "GRP"), pt.size = 2, adjust = 5, split.by = "Type")
+FeaturePlot(data.harmony, features = c("KRT5","KRT17", "TP63", "NGFR"))
+DotPlot(data.harmony, features = c("BANP"))
+VlnPlot(data.harmony, features = c("BANP"), adjust = 5, split.by = "Type", split.plot = T)
+VlnPlot(data.harmony, features = c("CXCL10", "CXCL11", "ISG20"))
+VlnPlot(data.harmony, features = c("FCER1A", "CST3", "CLEC9A", "CCL19"))
+DotPlot(data.harmony, features = c("ASCL1", "CALCA","GRP"))
+RidgePlot(data.harmony, features = c("ASCL1"), ident = "PNEC", group.by = "Type", log = TRUE)
+VlnPlot(data.harmony, features = c("CD3E", "CD3D", "CD3G", "CD8B", "CD8A", "CD40LG", "CD4"), pt.size = 1, adjust = 10)
+FeaturePlot(data.harmony, features = c("CD19", "MS4A1", "CD79A"))
